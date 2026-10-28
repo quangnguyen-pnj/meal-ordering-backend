@@ -1,0 +1,14 @@
+{
+  "name": "@meal/api",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Java 25 + Spring Boot API. Maven does the work; these scripts let turbo run it.",
+  "scripts": {
+    "build": "node scripts/mvn.mjs -q -DskipTests package",
+    "typecheck": "node scripts/mvn.mjs -q -DskipTests test-compile",
+    "lint": "node scripts/mvn.mjs -q spotless:check",
+    "test": "node scripts/mvn.mjs -q verify",
+    "format": "node scripts/mvn.mjs -q spotless:apply",
+    "start:dev": "node scripts/mvn.mjs -q -DskipTests install -pl meal-rules && node scripts/mvn.mjs -pl meal-api spring-boot:run"
+  }
+}
