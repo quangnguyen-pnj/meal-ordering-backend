@@ -1,17 +1,17 @@
-# Java API image (Spring Boot). Build context is the repository root:
-#   docker build -f docker/api.Dockerfile -t meal-api .
+# Java API image (Spring Boot). Build context is this repository's root:
+#   docker build -t meal-api .
 # Flyway applies the database migrations when the API starts.
 FROM eclipse-temurin:25-jdk-noble AS build
 WORKDIR /build
-COPY apps/api/.mvn .mvn
-COPY apps/api/mvnw apps/api/pom.xml ./
-COPY apps/api/meal-rules/pom.xml meal-rules/
-COPY apps/api/meal-api/pom.xml meal-api/
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+COPY meal-rules/pom.xml meal-rules/
+COPY meal-api/pom.xml meal-api/
 # Dependencies first, so a code change does not download them again (best effort: a miss only
 # means the package step downloads them).
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q dependency:go-offline -DexcludeReactor=true || true
-COPY apps/api/meal-rules/src meal-rules/src
-COPY apps/api/meal-api/src meal-api/src
+COPY meal-rules/src meal-rules/src
+COPY meal-api/src meal-api/src
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q -DskipTests package \
  && java -Djarmode=tools -jar meal-api/target/meal-api.jar extract --layers --launcher --destination /app
 

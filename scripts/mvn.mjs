@@ -1,5 +1,5 @@
-// Runs the Maven wrapper of apps/api with the given arguments, on Windows and elsewhere, so the
-// turbo tasks (lint, typecheck, test, build) work the same as for the TypeScript packages.
+// Runs the Maven wrapper of this repository with the given arguments, on Windows and elsewhere, so the
+// pnpm scripts (lint, typecheck, test, build, dev, db:seed, openapi) work the same everywhere.
 // MAVEN_CMD overrides the wrapper (e.g. MAVEN_CMD=mvn when a matching Maven is installed).
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
@@ -18,7 +18,7 @@ const result = spawnSync(shellCommand, ['-B', ...process.argv.slice(2)], {
   shell: isWindows,
   env: {
     // Local runs read the repository's .env (see application.yml).
-    MEAL_ENV_FILE: path.resolve(apiRoot, '../../.env'),
+    MEAL_ENV_FILE: path.resolve(apiRoot, '.env'),
     ...process.env,
   },
 });

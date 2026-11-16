@@ -1,14 +1,8 @@
 node_modules
-dist
-.next
-coverage
-.turbo
-*.tsbuildinfo
 .env
 .env.*
 !.env.example
 .pg-data
-
 
 # Maven
 target

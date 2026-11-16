@@ -2,7 +2,11 @@
   "name": "@meal/api",
   "version": "0.0.0",
   "private": true,
-  "description": "Java 25 + Spring Boot API. Maven does the work; these scripts let turbo run it.",
+  "description": "Java 25 + Spring Boot API. Maven does the work; these scripts are shortcuts, and db:local runs PostgreSQL without Docker.",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "build": "node scripts/mvn.mjs -q -DskipTests package",
     "typecheck": "node scripts/mvn.mjs -q -DskipTests test-compile",
@@ -12,6 +16,19 @@
     "start:dev": "node scripts/mvn.mjs -q -DskipTests install -pl meal-rules -am && node scripts/mvn.mjs -pl meal-api spring-boot:run",
     "db:seed": "node scripts/mvn.mjs -q -DskipTests install -pl meal-rules -am && node scripts/mvn.mjs -q -pl meal-api spring-boot:run -Dspring-boot.run.arguments=seed",
     "openapi": "node scripts/mvn.mjs -q -pl meal-api -am test -Dtest=OpenApiTest -Dsurefire.failIfNoSpecifiedTests=false -Dopenapi.write=true",
-    "dev": "node scripts/mvn.mjs -q -DskipTests install -pl meal-rules -am && node scripts/mvn.mjs -pl meal-api spring-boot:run"
+    "dev": "node scripts/mvn.mjs -q -DskipTests install -pl meal-rules -am && node scripts/mvn.mjs -pl meal-api spring-boot:run",
+    "db:local": "node scripts/local-postgres.mjs"
+  },
+  "devDependencies": {
+    "embedded-postgres": "17.10.0-beta.17"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@embedded-postgres/darwin-arm64",
+      "@embedded-postgres/darwin-x64",
+      "@embedded-postgres/linux-arm64",
+      "@embedded-postgres/linux-x64",
+      "@embedded-postgres/windows-x64"
+    ]
   }
 }
